@@ -1,4 +1,4 @@
 import Ember from 'ember';
-import EmberChosen from 'ember-chosen/components/ember-chosen';
+import EmberChosen from 'ember-cli-chosen/components/ember-chosen';
 
 export default EmberChosen;
