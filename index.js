@@ -26,11 +26,11 @@ module.exports = {
     // Import Chosen CSS (done by default)
     if(options.importChosenCSS) { app.import(app.bowerDirectory + '/chosen/chosen.css'); }
   },
-  treeFor: function(treeName) {
+  treeForPublic: function(treeName) {
     var tree;
 
     // Only include the Chosen sprites if we're including Chosen CSS in the build
-    if(treeName === 'public' && this.app.options['ember-cli-chosen'].importChosenCSS) {
+    if(this.app.options['ember-cli-chosen'].importChosenCSS) {
       tree = pickFiles(this.app.bowerDirectory + '/chosen', {
         srcDir: '/',
         files: ['*.png'],
