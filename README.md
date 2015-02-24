@@ -65,16 +65,12 @@ In a template, render the component via `ember-chosen`:
 
 All of the options below are watched for changes. If a change occurs, Chosen is re-initialized with the updated options.
 
-#### prompt
+#### disableSearchThreshold
 
-The placeholder for your Chosen input. This will set the `data-placeholder` attribute.
-
-**NOTE: For `prompt` to be displayed for single item select inputs, you must provide an empty <option> as the first
-option for your input**
+The number of options at which the search functionality should be disabled.
 
 ```hbs
-{{#ember-chosen prompt="Select one..."}}
-  <option></option>
+{{#ember-chosen disableSearchThreshold=10}}
   ...
 {{/ember-chosen}}
 ```
@@ -89,22 +85,22 @@ Right-to-left mode. This will add the `chosen-rtl` class to the select input.
 {{/ember-chosen}}
 ```
 
+#### maxSelectedOptions
+
+Set the maximum allowed number of selected options.
+
+```hbs
+{{#ember-chosen maxSelectedOptions=5}}
+  ...
+{{/ember-chosen}}
+```
+
 ### multiple
 
 Allows multiple selections.
 
 ```hbs
 {{#ember-chosen multiple=true}}
-  ...
-{{/ember-chosen}}
-```
-
-#### disableSearchThreshold
-
-The number of options at which the search functionality should be disabled.
-
-```hbs
-{{#ember-chosen disableSearchThreshold=10}}
   ...
 {{/ember-chosen}}
 ```
@@ -119,12 +115,16 @@ The text to be displayed when no results are available as a result of a search.
 {{/ember-chosen}}
 ```
 
-#### maxSelectedOptions
+#### prompt
 
-Set the maximum allowed number of selected options.
+The placeholder for your Chosen input. This will set the `data-placeholder` attribute.
+
+**NOTE: For `prompt` to be displayed for single item select inputs, you must provide an empty `<option>` as the first
+option for your input**
 
 ```hbs
-{{#ember-chosen maxSelectedOptions=5}}
+{{#ember-chosen prompt="Select one..."}}
+  <option></option>
   ...
 {{/ember-chosen}}
 ```
@@ -134,3 +134,33 @@ Set the maximum allowed number of selected options.
 Sets the width of the input.
 
 **Default:** "100%"
+
+### Actions
+
+`ember-cli-chosen` supports the following actions:
+
+#### selectionDidChange
+
+The action fired when the user updates their selection. For multiple select inputs, this includes selection AND
+**de**selection.
+
+**Note: For multiple selects, the parameter passed to your action is an array of the currently selected items.**
+
+```hbs
+{{#ember-chosen selectionDidChange="onSelectionChanged"}}
+  ...
+{{/ember-chosen}}
+```
+
+```javascript
+export default Ember.Controller.extend({
+  // Controller implementation
+  actions: {
+    onSelectionChanged: function(selectedValue) {
+      // selectedValue will be a single value for single selects
+      // and an Array for multiple selects
+      console.log('User selected:', selectedValue);
+    }
+  }
+});
+```

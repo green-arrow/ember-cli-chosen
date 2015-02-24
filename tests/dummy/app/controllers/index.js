@@ -3,12 +3,25 @@ import controllerSetup from '../code-highlights/controller-setup';
 import standardSelect from '../code-highlights/standard-select';
 import multipleSelect from '../code-highlights/multiple-select';
 import optgroupSelect from '../code-highlights/optgroup-select';
+import actionSelect from '../code-highlights/action-select';
+import actionSelectController from '../code-highlights/action-select-controller';
 
 export default Ember.Controller.extend({
   controllerSetupCode: controllerSetup,
   standardSelectCode: standardSelect,
   multipleSelectCode: multipleSelect,
   optgroupSelectCode: optgroupSelect,
+  actionSelectCode: actionSelect,
+  actionSelectControllerCode: actionSelectController,
+  singleSelectValue: null,
+  multipleSelectValue: null,
+  optgroupSelectValue: null,
+  actionMessage: null,
+  actions: {
+    onSelectionChanged: function(selectedValue) {
+      this.set('actionMessage', 'You selected ' + selectedValue + '!');
+    }
+  },
   countries: [
     {name: 'United States', code: 'US'},
     {name: 'United Kingdom', code: 'GB'},

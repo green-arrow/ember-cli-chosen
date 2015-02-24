@@ -1,4 +1,4 @@
-export default "{{#ember-chosen}}\n" +
+export default "{{#ember-chosen value=optgroupSelectValue}}\n" +
               "    <option value=\"\"></option>\n" +
               "    <optgroup label=\"NFC EAST\">\n" +
               "        <option>Dallas Cowboys</option>\n" +
@@ -7,4 +7,6 @@ export default "{{#ember-chosen}}\n" +
               "        <option>Washington Redskins</option>\n" +
               "    </optgroup>\n" +
               "    <!-- You get the rest -->\n" +
-              "{{/ember-chosen}}";
+              "{{/ember-chosen}}\n" +
+              "\n" +
+              "<p>Selected value: {{optgroupSelectValue}}</p>";

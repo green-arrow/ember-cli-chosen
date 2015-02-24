@@ -6,17 +6,19 @@
 
 <h4>Standard Select</h4>
 
-{{#ember-chosen}}
+{{#ember-chosen value=singleSelectValue}}
     <option></option>
   {{#each countries as |country|}}
     <option {{bind-attr value=country.code}}>{{country.name}}</option>
   {{/each}}
 {{/ember-chosen}}
 
+<p>Selected value: {{singleSelectValue}}</p>
+
 <div class="accordion">
-    <section>
+    <section class="active">
         <h4>Code</h4>
-        <article>
+        <article style="display: block;">
           {{eg-code-highlight code=standardSelectCode language='hbs'}}
         </article>
     </section>
@@ -24,17 +26,26 @@
 
 <h4>Multiple Select</h4>
 
-{{#ember-chosen multiple=true}}
+{{#ember-chosen multiple=true value=multipleSelectValue}}
     <option></option>
     {{#each countries as |country|}}
         <option {{bind-attr value=country.code}}>{{country.name}}</option>
     {{/each}}
 {{/ember-chosen}}
 
+<p>
+    Selected values:
+    <ul>
+      {{#each multipleSelectValue as |value|}}
+        <li>{{value}}</li>
+      {{/each}}
+    </ul>
+</p>
+
 <div class="accordion">
-    <section>
+    <section class="active">
         <h4>Code</h4>
-        <article>
+        <article style="display: block;">
           {{eg-code-highlight code=multipleSelectCode language='hbs'}}
         </article>
     </section>
@@ -42,7 +53,7 @@
 
 <h4>Grouping</h4>
 
-{{#ember-chosen}}
+{{#ember-chosen value=optgroupSelectValue}}
     <option value=""></option>
     <optgroup label="NFC EAST">
         <option>Dallas Cowboys</option>
@@ -94,11 +105,44 @@
     </optgroup>
 {{/ember-chosen}}
 
+<p>Selected value: {{optgroupSelectValue}}</p>
+
 <div class="accordion">
-    <section>
+    <section class="active">
         <h4>Code</h4>
-        <article>
+        <article style="display: block;">
           {{eg-code-highlight code=optgroupSelectCode language='hbs'}}
+        </article>
+    </section>
+</div>
+
+<h3>Actions</h3>
+
+<h4>Using selectionDidChange</h4>
+
+{{#ember-chosen selectionDidChange="onSelectionChanged"}}
+    <option></option>
+    {{#each countries as |country|}}
+        <option {{bind-attr value=country.code}}>{{country.name}}</option>
+    {{/each}}
+{{/ember-chosen}}
+
+<p>Message: {{actionMessage}}</p>
+
+<div class="accordion">
+    <section class="active">
+        <h4>Code - Markup</h4>
+        <article style="display: block;">
+          {{eg-code-highlight code=actionSelectCode language='hbs'}}
+        </article>
+    </section>
+</div>
+
+<div class="accordion">
+    <section class="active">
+        <h4>Code - Controller</h4>
+        <article style="display: block;">
+          {{eg-code-highlight code=actionSelectControllerCode language='javascript'}}
         </article>
     </section>
 </div>
