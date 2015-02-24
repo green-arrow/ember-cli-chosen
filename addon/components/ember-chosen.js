@@ -25,7 +25,6 @@ export default Ember.Component.extend({
              'noResultsText', 'maxSelectedOptions', 'width'),
   _setupChosen: function() {
     var options = this.get('_options');
-    console.log(options);
     this.$().chosen(options);
   }.observes('_options'),
   didInsertElement: function() {

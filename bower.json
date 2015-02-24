@@ -13,5 +13,8 @@
     "ember-qunit-notifications": "0.0.7",
     "qunit": "~1.17.1",
     "chosen": "https://github.com/harvesthq/chosen/releases/download/v1.3.0/chosen_v1.3.0.zip"
+  },
+  "devDependencies": {
+    "one-nexus": "~1.1.2"
   }
 }
