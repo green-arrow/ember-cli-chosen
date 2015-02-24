@@ -4,6 +4,8 @@ This addon allows you to use the popular [Chosen jQuery plugin](http://harvesthq
 
 **ember-cli-chosen works with ember-cli version '0.1.5' or later**
 
+Always [view the latest readme](https://github.com/green-arrow/ember-cli-chosen) via Github!
+
 [View Demo](http://green-arrow.github.io/ember-cli-chosen/)
 
 ## Installation
