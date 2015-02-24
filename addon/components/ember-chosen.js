@@ -21,10 +21,11 @@ export default Ember.Component.extend({
     if(this.get('width')) { options['width'] = this.get('width'); }
 
     return options;
-  }.observes('prompt', 'isRtl', 'multiple', 'disableSearchThreshold',
+  }.property('prompt', 'isRtl', 'multiple', 'disableSearchThreshold',
              'noResultsText', 'maxSelectedOptions', 'width'),
   _setupChosen: function() {
     var options = this.get('_options');
+    console.log(options);
     this.$().chosen(options);
   }.observes('_options'),
   didInsertElement: function() {
