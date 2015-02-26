@@ -22,16 +22,30 @@ export default Ember.View.extend({
       menuBtn = Ember.$('.nav-trigger, .pushy a'), //css classes to toggle the menu
       menuSpeed = 200, //jQuery fallback menu speed
       menuWidth = pushy.width() + "px", //jQuery fallback menu width
-      cssTransforms3d;
+      cssTransforms3d, state;
 
     // Clone main nav
     mainNav.clone().appendTo(pushy);
 
     function togglePushy(){
-      body.toggleClass(pushyActiveClass); //toggle site overlay
-      pushy.toggleClass(pushyClass);
-      container.toggleClass(containerClass);
-      push.toggleClass(pushClass); //css class to add pushy capability
+      if(cssTransforms3d) {
+        body.toggleClass(pushyActiveClass); //toggle site overlay
+        pushy.toggleClass(pushyClass);
+        container.toggleClass(containerClass);
+        push.toggleClass(pushClass); //css class to add pushy capability
+      } else {
+        togglePushyFallback();
+      }
+    }
+
+    function togglePushyFallback() {
+      if (state) {
+        openPushyFallback();
+        state = false;
+      } else {
+        closePushyFallback();
+        state = true;
+      }
     }
 
     function openPushyFallback(){
@@ -75,45 +89,28 @@ export default Ember.View.extend({
       return (supported !== undefined && supported.length > 0 && supported !== "none");
     })();
 
-    if(cssTransforms3d){
-      //toggle menu
-      menuBtn.click(function() {
-        togglePushy();
-      });
-      //close menu when clicking site overlay
-      siteOverlay.click(function(){
-        togglePushy();
-      });
-    }else{
+    if(!cssTransforms3d) {
       //jQuery fallback
       pushy.css({left: "-" + menuWidth}); //hide menu by default
       container.css({"overflow-x": "hidden"}); //fixes IE scrollbar issue
 
       //keep track of menu state (open/close)
-      var state = true;
-
-      //toggle menu
-      menuBtn.click(function() {
-        console.log('click');
-        if (state) {
-          openPushyFallback();
-          state = false;
-        } else {
-          closePushyFallback();
-          state = true;
-        }
-      });
-
-      //close menu when clicking site overlay
-      siteOverlay.click(function(){
-        if (state) {
-          openPushyFallback();
-          state = false;
-        } else {
-          closePushyFallback();
-          state = true;
-        }
-      });
+      state = true;
     }
+
+    //toggle menu
+    menuBtn.click(function() {
+      togglePushy();
+    });
+
+    //close menu when clicking site overlay
+    siteOverlay.click(function(){
+      togglePushy();
+    });
+
+    // close menu when clicking a nav item
+    pushy.find('li a').click(function() {
+      togglePushy();
+    });
   }
 });

@@ -5,6 +5,7 @@
 <p>For complete documentation on ember-cli-chosen, check out the readme at the
     <a href="https://github.com/green-arrow/ember-cli-chosen">Github Repo</a>
 </p>
+
 <h4>Setup</h4>
 
 <p>Assume the following setup for our index controller</p>
@@ -33,7 +34,7 @@
 
 <h4>Multiple Select</h4>
 
-{{#ember-chosen multiple=true value=multipleSelectValue maxSelectedOptions=2}}
+{{#ember-chosen multiple=true value=multipleSelectValue}}
     <option></option>
     {{#each countries as |country|}}
         <option {{bind-attr value=country.code}}>{{country.name}}</option>

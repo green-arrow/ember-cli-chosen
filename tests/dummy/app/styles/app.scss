@@ -57,9 +57,14 @@ Modules
 
 @import url(//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
 
+/* Navigation */
 @media(max-width: $breakpoint-3 - 1) {
   .main-nav .button {
     margin-bottom: 10px;
+  }
+
+  .main-nav .button.no-margin {
+    margin-left: 0;
   }
 }
 
@@ -71,8 +76,17 @@ Modules
 }
 
 .main-nav {
-  .button:not(.no-margin) {
-    margin-left: 10px;
+  li > a {
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  li.active > a, li.active:hover > a {
+    color: white;
+    background-color: $brand-1;
+  }
+
+  .button {
+    margin-left: 15px;
   }
 
   .button .fa {
@@ -87,10 +101,20 @@ Modules
   cursor: pointer;
 }
 
+/* Headings */
 .container .main-header {
   margin-top: 20px;
 }
 
+.section-header {
+  border-bottom: solid 1px $brand-3;
+}
+
+/* Code / accordion */
 .accordion {
   margin-top: 20px;
+}
+
+code.inline {
+  display: inline;
 }

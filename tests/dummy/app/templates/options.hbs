@@ -1,0 +1,48 @@
+<h1 class="main-header">Options</h1>
+
+<h2>Actions</h2>
+
+<p>
+    ember-cli-chosen exposes the following actions:
+</p>
+
+<h3 class="section-header">chosenMaxSelected</h3>
+
+<p>
+    This event is fired when <code class="hljs inline">maxSelectedOptions</code> has been set and the user
+    tries to select an additional value after <code class="hljs inline">maxSelectedOptions</code> has been met.
+</p>
+
+<h4>Arguments</h4>
+
+<p><strong>e</strong>: The jQuery event associated with the event.</p>
+<p><strong>chosen</strong>: The Chosen object for the input that triggered the event.</p>
+
+<h4>Example</h4>
+
+{{#ember-chosen multiple=true maxSelectedOptions=2 chosenMaxSelected="onChosenMaxSelected"}}
+    <option></option>
+    {{#each countries as |country|}}
+        <option {{bind-attr value=country.code}}>{{country.name}}</option>
+    {{/each}}
+{{/ember-chosen}}
+
+<p><strong>{{maxSelectedMessage}}</strong></p>
+
+<div class="accordion">
+    <section class="active">
+        <h4>Code - Markup</h4>
+        <article style="display: block;">
+          {{eg-code-highlight code=maxSelectedHbsCode language='hbs'}}
+        </article>
+    </section>
+</div>
+
+<div class="accordion">
+    <section class="active">
+        <h4>Code - Controller</h4>
+        <article style="display: block;">
+          {{eg-code-highlight code=maxSelectedControllerCode language='javascript'}}
+        </article>
+    </section>
+</div>

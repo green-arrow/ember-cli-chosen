@@ -1,10 +1,10 @@
 import Ember from 'ember';
-import controllerSetup from '../code-highlights/controller-setup';
-import standardSelect from '../code-highlights/standard-select';
-import multipleSelect from '../code-highlights/multiple-select';
-import optgroupSelect from '../code-highlights/optgroup-select';
-import actionSelect from '../code-highlights/action-select';
-import actionSelectController from '../code-highlights/action-select-controller';
+import controllerSetup from '../code-highlights/home/controller-setup';
+import standardSelect from '../code-highlights/home/standard-select';
+import multipleSelect from '../code-highlights/home/multiple-select';
+import optgroupSelect from '../code-highlights/home/optgroup-select';
+import actionSelect from '../code-highlights/home/action-select-hbs';
+import actionSelectController from '../code-highlights/home/action-select-controller';
 
 export default Ember.Controller.extend({
   controllerSetupCode: controllerSetup,
