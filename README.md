@@ -166,3 +166,27 @@ export default Ember.Controller.extend({
   }
 });
 ```
+
+#### chosenMaxSelected
+
+The action fired when `maxSelectedOptions` has been set and the user tries to select an additional value after
+`maxSelectedOptions` has been met.
+
+```hbs
+{{#ember-chosen multiple=true maxSelectedOptions=5 chosenMaxSelected="onChosenMaxSelected"}}
+  ...
+{{/ember-chosen}}
+```
+
+```javascript
+export default Ember.Controller.extend({
+  // Controller implementation
+  actions: {
+    onChosenMaxSelected: function(e, chosen) {
+      // e: jQuery Event
+      // chosen: The Chosen object for the input that triggered the event
+      alert("You can't do that!");
+    }
+  }
+});
+```
