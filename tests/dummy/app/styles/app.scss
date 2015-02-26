@@ -50,7 +50,7 @@ Modules
 @import "../../../../bower_components/one-nexus/assets/styles/scss/modules/logo";
 @import "../../../../bower_components/one-nexus/assets/styles/scss/modules/main-nav";
 //@import "../../../../bower_components/one-nexus/assets/styles/scss/modules/nav-trigger";
-//@import "../../../../bower_components/one-nexus/assets/styles/scss/modules/off-canvas-nav";
+@import "../../../../bower_components/one-nexus/assets/styles/scss/modules/off-canvas-nav";
 //@import "../../../../bower_components/one-nexus/assets/styles/scss/modules/scroll-top";
 
 /* Custom for this site */
@@ -63,11 +63,28 @@ Modules
   }
 }
 
-.main-nav .button:not(:first-child) {
-  margin-left: 10px;
+@media(min-width: $breakpoint-3) {
+  .main-nav ul {
+    display: inline-block;
+    margin-bottom: 0;
+  }
 }
-.button .fa {
-  margin-right: 5px;
+
+.main-nav {
+  .button:not(.no-margin) {
+    margin-left: 10px;
+  }
+
+  .button .fa {
+    margin-right: 5px;
+  }
+}
+
+.nav-trigger {
+  float: right;
+  margin-top: -35px;
+  color: white;
+  cursor: pointer;
 }
 
 .container .main-header {

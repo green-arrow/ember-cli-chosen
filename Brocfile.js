@@ -10,5 +10,6 @@ var app = new EmberAddon({
 });
 
 app.import(app.bowerDirectory + '/one-nexus/assets/js/accordion.js');
+app.import(app.bowerDirectory + '/one-nexus/assets/js/off-canvas-nav.js');
 
 module.exports = app.toTree();

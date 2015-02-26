@@ -44,7 +44,8 @@ export default Ember.Component.extend({
       }
     }
 
-    _this.$().chosen(options).change(function (e, params) {
+    _this.$().chosen(options)
+      .on('change', function (e, params) {
       var index;
 
       if(isMultiple) {
@@ -67,6 +68,8 @@ export default Ember.Component.extend({
 
       _this.set('value', selectedValue);
       _this.sendAction('selectionDidChange', selectedValue);
+    }).on('chosen:maxselected', function(e, chosen) {
+      this.sendAction('chosenMaxSelected', e, chosen);
     });
   }.observes('_options'),
   didInsertElement: function() {
