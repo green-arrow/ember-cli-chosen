@@ -57,7 +57,19 @@ Modules
 
 @import url(//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
 
-/* Navigation */
+/* Header / Logo */
+.logo {
+  a {
+    text-decoration: none;
+  }
+
+  .fa {
+    font-size: 1.3em;
+    vertical-align: top;
+  }
+}
+
+/* Main Navigation */
 @media(max-width: $breakpoint-3 - 1) {
   .main-nav .button {
     margin-bottom: 10px;
