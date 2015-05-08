@@ -4,7 +4,7 @@ module.exports = {
 
   afterInstall: function(options) {
     return this.addBowerPackagesToProject([
-      { name: 'chosen=https://github.com/harvesthq/chosen/releases/download/v1.3.0/chosen_v1.3.0.zip' }
+      { name: 'chosen=https://github.com/harvesthq/chosen/releases/download/1.4.2/chosen_v1.4.2.zip' }
     ]);
   }
 };
