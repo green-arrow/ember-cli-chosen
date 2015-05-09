@@ -13,13 +13,12 @@
 {{eg-code-highlight code=controllerSetupCode language='javascript'}}
 
 <h4>Standard Select</h4>
-
-{{#ember-chosen value=singleSelectValue}}
-    <option></option>
-  {{#each countries as |country|}}
-    <option {{bind-attr value=country.code}}>{{country.name}}</option>
-  {{/each}}
-{{/ember-chosen}}
+{{ember-chosen value=singleSelectValue
+               content=countries
+               optionValuePath="content.code"
+               optionLabelPath="content.name"
+               optionGroupPath="group"
+               includeGroupLabelInSelected=true}}
 
 <p>Selected value: {{singleSelectValue}}</p>
 
@@ -34,12 +33,14 @@
 
 <h4>Multiple Select</h4>
 
-{{#ember-chosen multiple=true value=multipleSelectValue}}
-    <option></option>
-    {{#each countries as |country|}}
-        <option {{bind-attr value=country.code}}>{{country.name}}</option>
-    {{/each}}
-{{/ember-chosen}}
+{{ember-chosen selection=multipleSelectValue
+               multiple=true
+               prompt=""
+               content=countries
+               optionValuePath="content.code"
+               optionLabelPath="content.name"
+               optionGroupPath="group"
+               includeGroupLabelInSelected=true}}
 
 <p>
     Selected values:
