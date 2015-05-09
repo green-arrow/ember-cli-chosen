@@ -163,6 +163,10 @@ export default Ember.Component.extend({
       currentSelection = this.get('selection'),
       currentValue = this.get('value');
 
+    if (!Ember.isNone(this.get('prompt'))) {
+      return;
+    }
+
     if (isMultiple) {
       currentSelection = Ember.makeArray(currentSelection);
       this.set('selection', currentSelection);
@@ -209,9 +213,10 @@ export default Ember.Component.extend({
   /**
    * _selectionChanged is triggered when selection on chosen components is 
    * changed. Selection and value properties are updated here. selectionDidChange
+   * is triggered after setting selection values.
    * 
-   * @param  {[type]} ev     Event
-   * @param  {[type]} params Chosen params
+   * @param  {Object} ev     Event
+   * @param  {Object} params Chosen params
    * 
    */
   _selectionChanged: function (ev, params) {
@@ -222,6 +227,10 @@ export default Ember.Component.extend({
 
     if (isMultiple) {
       currentSelection = this.get('selection');
+      if (!currentSelection) {
+        currentSelection = Ember.A();
+        this.set('selection', currentSelection);
+      }
 
       if (params.selected) {
         currentSelection.pushObject(selectedValue);
