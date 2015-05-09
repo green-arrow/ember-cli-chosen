@@ -13,12 +13,13 @@
 {{eg-code-highlight code=controllerSetupCode language='javascript'}}
 
 <h4>Standard Select</h4>
-{{ember-chosen value=singleSelectValue
-               content=countries
-               optionValuePath="content.code"
-               optionLabelPath="content.name"
-               optionGroupPath="group"
-               includeGroupLabelInSelected=true}}
+{{chosen-select value=singleSelectValue
+                prompt="Select something"
+                content=countries
+                optionValuePath="content.code"
+                optionLabelPath="content.name"
+                optionGroupPath="group"
+                includeGroupLabelInSelected=true}}
 
 <p>Selected value: {{singleSelectValue}}</p>
 
@@ -33,14 +34,14 @@
 
 <h4>Multiple Select</h4>
 
-{{ember-chosen selection=multipleSelectValue
-               multiple=true
-               prompt=""
-               content=countries
-               optionValuePath="content.code"
-               optionLabelPath="content.name"
-               optionGroupPath="group"
-               includeGroupLabelInSelected=true}}
+{{chosen-select selection=multipleSelectValue
+                multiple=true
+                prompt=""
+                content=countries
+                optionValuePath="content.code"
+                optionLabelPath="content.name"
+                optionGroupPath="group"
+                includeGroupLabelInSelected=true}}
 
 <p>
     Selected values:
@@ -62,7 +63,6 @@
 
 <h4>Grouping</h4>
 
-{{#ember-chosen value=optgroupSelectValue}}
     <option value=""></option>
     <optgroup label="NFC EAST">
         <option>Dallas Cowboys</option>
@@ -112,7 +112,6 @@
         <option>Oakland Raiders</option>
         <option>San Diego Chargers</option>
     </optgroup>
-{{/ember-chosen}}
 
 <p>Selected value: {{optgroupSelectValue}}</p>
 
@@ -129,12 +128,11 @@
 
 <h4>Using selectionDidChange</h4>
 
-{{#ember-chosen selectionDidChange="onSelectionChanged"}}
+#ember-chosen selectionDidChange="onSelectionChanged"}}
     <option></option>
     {{#each countries as |country|}}
         <option {{bind-attr value=country.code}}>{{country.name}}</option>
     {{/each}}
-{{/ember-chosen}}
 
 <p>Message: {{actionMessage}}</p>
 
