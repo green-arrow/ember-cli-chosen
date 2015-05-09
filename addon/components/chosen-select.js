@@ -17,18 +17,33 @@ var CHOSEN_PROPERTIES = ['allowSingleDeselect',
   'displaySelectedOptions',
   'includeGroupLabelInSelected'];
 
+// We support these Chosen events
+var CHOSEN_EVENTS = ['change',
+  'ready',
+  'maxselected',
+  'showing_dropdown',
+  'hiding_dropdown',
+  'no_results'];
+
 // Custom handling for these properties
 var CUSTOM_PROPERTIES = ['isRtl', 'prompt', 'multiple'];
 
 // All suported properties
 var COMPONENT_PROPERTIES = CHOSEN_PROPERTIES.concat(CUSTOM_PROPERTIES);
 
+// Mapping of CHOSEN_EVENTS to Component methods
+var CHOSEN_EVENT_MAPING = {
+  'ready': 'chosenReady',
+  'maxselected': 'maxSelected'
+};
+
+var computed = Ember.computed;
+
 export default Ember.Component.extend({
   tagName: 'select',
   classNameBindings: ['isRtl:chosen-rtl'],
   attributeBindings: ['prompt:data-placeholder', 'multiple'],
 
-  // select element specific properties 
   prompt: null,
 
   multiple: false,
@@ -46,16 +61,29 @@ export default Ember.Component.extend({
 
   isRtl: false,
 
-  // These actions are getting called
+  // These actions are getting called on chosen events
   selectionDidChange: null,
   chosenMaxSelected: null,
+  chosenReady: null,
+  chosenShowingDropdown: null,
+  chosenHidingDropdown: null,
+  chosenNoResults: null,
 
+  /**
+   * didInsertElement sets up chosen when component is inserted into DOM.
+   * 
+   */
   didInsertElement: function() {
     this._super();
     this._setupChosen();
   },
 
-  groupedContent: function() {
+  /**
+   * groupedContent creates a grouped content with respect to optionGroupPath.
+   * 
+   * @return {Array} Content in a grouped form.
+   */
+  groupedContent: computed('optionGroupPath', 'content.@each', function() {
     var groupPath = this.get('optionGroupPath');
     var groupedContent = Ember.A();
     var content = this.get('content') || [];
@@ -74,10 +102,15 @@ export default Ember.Component.extend({
     });
 
     return groupedContent;
-  }.property('optionGroupPath', 'content.@each'),
+  }),
 
-  // Chosen specific options
-  _options: Ember.computed(COMPONENT_PROPERTIES, function () {
+  /**
+   * _options watches property changes and builds up chosen options that are 
+   * passed to chosen component.
+   * 
+   * @return {Object} Chosen options.
+   */
+  _options: computed(COMPONENT_PROPERTIES, function () {
     var options = {};
 
     CHOSEN_PROPERTIES.forEach(function (propertyName) {
@@ -90,6 +123,12 @@ export default Ember.Component.extend({
     return options;
   }),
 
+  /**
+   * _getFirstContent returns initial selected value from content property with
+   * respect to optionValuePath.
+   * 
+   * @return {Object} Initial selected value or null.
+   */
   _getFirstContent: function () {
     var optionValuePath = this.get('optionValuePath'),
       content = this.get('content'),
@@ -114,13 +153,16 @@ export default Ember.Component.extend({
     return value;
   },
 
-  _setupChosen: function() {
-    var options = this.get('_options'),
-      isMultiple = this.get('multiple'),
+  /**
+   * _setInitialSelectionValue sets the initial values for selection and value
+   * properties.
+   * 
+   */
+  _setInitialSelectionValue: function () {
+    var isMultiple = this.get('multiple'),
       currentSelection = this.get('selection'),
       currentValue = this.get('value');
 
-    // Set initial selection to value and selection
     if (isMultiple) {
       currentSelection = Ember.makeArray(currentSelection);
       this.set('selection', currentSelection);
@@ -140,14 +182,38 @@ export default Ember.Component.extend({
       this.set('selection', currentValue);
       this.set('value', currentValue);
     }
+  },
+
+  /**
+   * _setupChosen intializes chosen component.
+   * 
+   */
+  _setupChosen: function() {
+    var options = this.get('_options');
+
+    this._setInitialSelectionValue();
+
+    // Initialize chosen 
+    var chosenElement = this.$().chosen(options)
+      .change(this._selectionChanged.bind(this));
 
     // Subscribe to chosen events
-    this.$().chosen(options)
-      .on('change', this._selectionChanged.bind(this))
-      .on('chosen:maxselected', this.sendAction.bind(this, 'chosenMaxSelected'));
-
+    CHOSEN_EVENTS.forEach(function (eventName) {
+      var eventHandlerName = '_' + CHOSEN_EVENT_MAPING[eventName] || eventName.decamelize();
+      if (this[eventHandlerName]) {
+        chosenElement.on('chosen:' + eventName, this[eventHandlerName].bind(this));
+      }
+    }.bind(this));
   }.observes('_options'),
 
+  /**
+   * _selectionChanged is triggered when selection on chosen components is 
+   * changed. Selection and value properties are updated here. selectionDidChange
+   * 
+   * @param  {[type]} ev     Event
+   * @param  {[type]} params Chosen params
+   * 
+   */
   _selectionChanged: function (ev, params) {
     var selectedValue = params.selected,
       isMultiple = this.get('multiple'),
@@ -172,5 +238,47 @@ export default Ember.Component.extend({
     }
 
     this.sendAction('selectionDidChange', selectedValue);
+  },
+
+  /**
+   * _maxSelected is triggered when max number of items is selected on chosen
+   * component. Max number of items can be controlled through maxSelectedOptions
+   * property.
+   * 
+   */
+  _maxSelected: function () {
+    this.sendAction('chosenMaxSelected');
+  },
+
+  /**
+   * _chosenReady is triggered on chosen:ready event.
+   * 
+   */
+  _chosenReady: function () {
+    this.sendAction('chosenReady');
+  },
+
+  /**
+   * _showingDropdown is triggered on chosen:showing_dropdown event.
+   * 
+   */
+  _showingDropdown: function () {
+    this.sendAction('chosenShowingDropdown');
+  },
+
+  /**
+   * _hidingDropdown is triggered on chosen:hiding_dropdown event.
+   * 
+   */
+  _hidingDropdown: function () {
+    this.sendAction('chosenHidingDropdown');
+  },
+
+  /**
+   * _noResults is triggered on chosen:no_results event.
+   * 
+   */
+  _noResults: function () {
+    this.sendAction('chosenNoResults');
   }
 });
