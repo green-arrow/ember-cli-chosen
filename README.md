@@ -1,6 +1,6 @@
 # ember-cli-chosen
 
-This addon allows you to use the popular [Chosen jQuery plugin](http://harvesthq.github.io/chosen/) in your ember-cli application.
+This addon allows you to use the popular [Chosen jQuery plugin](http://harvesthq.github.io/chosen/) in your ember-cli application. The current supported version of Chosen plugin is 1.4.2.
 
 **ember-cli-chosen works with ember-cli version '0.1.5' or later**
 
@@ -51,14 +51,31 @@ var EmberApp = new EmberApp({
 
 ### Usage
 
-In a template, render the component via `ember-chosen`:
+In a template, render the component via `chosen-select`:
 
 ```hbs
-{{#ember-chosen}}
-  <option value="1">Tom Dale</option>
-  <option value="2">Yehuda Katz</option>
-  ...
-{{/ember-chosen}}
+{{chosen-select value=selectedValue
+                content=stringsArray}}
+```
+
+```hbs
+{{chosen-select value=selectedValue
+                content=complexObjectsArray
+                optionValuePath="content.value"
+                optionLabelPath="content.label"}}
+```
+
+You may notice that attributes are as same as for Ember.Select view, so you can easily switch your select views for chosen-select.
+
+Selecting multiple of elements with grouped content:
+
+```hbs
+{{chosen-select selection=multipleSelectedValue
+                multiple=true
+                content=countries
+                optionValuePath="content.code"
+                optionLabelPath="content.name"
+                optionGroupPath="group"}}
 ```
 
 ### Options
@@ -67,91 +84,58 @@ In a template, render the component via `ember-chosen`:
 
 All of the options below are watched for changes. If a change occurs, Chosen is re-initialized with the updated options.
 
-#### disableSearchThreshold
+    allowSingleDeselect
+    disableSearch
+    disableSearchThreshold
+    enableSplitWordSearch
+    inheritSelectClasses
+    maxSelectedOptions
+    noResultsText
+    placeholderTextMultiple
+    placeholderTextSingle
+    searchContains
+    singleBackstrokeDelete
+    width
+    displayDisabledOptions
+    displaySelectedOptions
+    includeGroupLabelInSelected
 
-The number of options at which the search functionality should be disabled.
+For more information about these properties see [Chosen docs](http://harvesthq.github.io/chosen/options.html).
 
-```hbs
-{{#ember-chosen disableSearchThreshold=10}}
-  ...
-{{/ember-chosen}}
-```
-
-#### isRtl
-
-Right-to-left mode. This will add the `chosen-rtl` class to the select input.
-
-```hbs
-{{#ember-chosen isRtl=true}}
-  ...
-{{/ember-chosen}}
-```
-
-#### maxSelectedOptions
-
-Set the maximum allowed number of selected options.
+Example: Selecting multiple values from array of complex objects, grouped by some group, with selected group shown on selected option label:
 
 ```hbs
-{{#ember-chosen maxSelectedOptions=5}}
-  ...
-{{/ember-chosen}}
+{{chosen-select selection=multipleSelectedValue
+                multiple=true
+                content=countries
+                optionValuePath="content.code"
+                optionLabelPath="content.name"
+                optionGroupPath="group"
+                includeGroupLabelInSelected=true}}
 ```
-
-### multiple
-
-Allows multiple selections.
-
-```hbs
-{{#ember-chosen multiple=true}}
-  ...
-{{/ember-chosen}}
-```
-
-#### noResultsText
-
-The text to be displayed when no results are available as a result of a search.
-
-```hbs
-{{#ember-chosen noResultsText="Sorry, nothing to display!"}}
-  ...
-{{/ember-chosen}}
-```
-
-#### prompt
-
-The placeholder for your Chosen input. This will set the `data-placeholder` attribute.
-
-**NOTE: For `prompt` to be displayed for single item select inputs, you must provide an empty `<option>` as the first
-option for your input**
-
-```hbs
-{{#ember-chosen prompt="Select one..."}}
-  <option></option>
-  ...
-{{/ember-chosen}}
-```
-
-#### width
-
-Sets the width of the input.
-
-**Default:** "100%"
 
 ### Actions
 
 `ember-cli-chosen` supports the following actions:
 
-#### selectionDidChange
+    selectionDidChange
+    chosenReady
+    chosenMaxSelected
+    chosenShowingDropdown
+    chosenHidingDropdown
+    chosenNoResults
 
-The action fired when the user updates their selection. For multiple select inputs, this includes selection AND
-**de**selection.
+For more information about these properties see [Chosen docs](http://harvesthq.github.io/chosen/options.html#triggered-events).
 
-**Note: For multiple selects, the parameter passed to your action is an array of the currently selected items.**
+Example:
 
 ```hbs
-{{#ember-chosen selectionDidChange="onSelectionChanged"}}
-  ...
-{{/ember-chosen}}
+{{chosen-select value=singleSelectValue
+                prompt="Select some country"
+                content=countries
+                optionValuePath="content.code"
+                optionLabelPath="content.name"
+                selectionDidChange="onSelectionChanged"}}
 ```
 
 ```javascript
@@ -162,30 +146,6 @@ export default Ember.Controller.extend({
       // selectedValue will be a single value for single selects
       // and an Array for multiple selects
       console.log('User selected:', selectedValue);
-    }
-  }
-});
-```
-
-#### chosenMaxSelected
-
-The action fired when `maxSelectedOptions` has been set and the user tries to select an additional value after
-`maxSelectedOptions` has been met.
-
-```hbs
-{{#ember-chosen multiple=true maxSelectedOptions=5 chosenMaxSelected="onChosenMaxSelected"}}
-  ...
-{{/ember-chosen}}
-```
-
-```javascript
-export default Ember.Controller.extend({
-  // Controller implementation
-  actions: {
-    onChosenMaxSelected: function(e, chosen) {
-      // e: jQuery Event
-      // chosen: The Chosen object for the input that triggered the event
-      alert("You can't do that!");
     }
   }
 });
