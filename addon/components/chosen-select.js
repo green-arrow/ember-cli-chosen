@@ -26,7 +26,7 @@ var CHOSEN_EVENTS = ['change',
   'no_results'];
 
 // Custom handling for these properties
-var CUSTOM_PROPERTIES = ['isRtl', 'prompt', 'multiple'];
+var CUSTOM_PROPERTIES = ['isRtl', 'prompt', 'multiple', 'content.@each'];
 
 // All suported properties
 var COMPONENT_PROPERTIES = CHOSEN_PROPERTIES.concat(CUSTOM_PROPERTIES);
@@ -60,6 +60,9 @@ export default Ember.Component.extend({
   optionView: Ember.SelectOption,
 
   isRtl: false,
+
+  // Chosen properties default values
+  width: '100%',
 
   // These actions are getting called on chosen events
   selectionDidChange: null,
@@ -110,7 +113,7 @@ export default Ember.Component.extend({
    * 
    * @return {Object} Chosen options.
    */
-  _options: computed(COMPONENT_PROPERTIES, function () {
+  _options: computed.apply(null, COMPONENT_PROPERTIES.concat(function () {
     var options = {};
 
     CHOSEN_PROPERTIES.forEach(function (propertyName) {
@@ -121,7 +124,7 @@ export default Ember.Component.extend({
     }.bind(this));
 
     return options;
-  }),
+  })),
 
   /**
    * _getFirstContent returns initial selected value from content property with
@@ -193,6 +196,19 @@ export default Ember.Component.extend({
    * 
    */
   _setupChosen: function() {
+    Ember.run.scheduleOnce('afterRender', this, this.afterRenderEvent);
+  }.observes('_options'),
+
+  /**
+   * afterRenderEvent is called after all child views are rendered
+   * 
+   */
+  afterRenderEvent: function () {
+    if (this.get('_chosenInitialized')) {
+      this.$().trigger('chosen:updated');
+      console.log('chosen updated');
+      return;
+    }
     var options = this.get('_options');
 
     this._setInitialSelectionValue();
@@ -208,7 +224,9 @@ export default Ember.Component.extend({
         chosenElement.on('chosen:' + eventName, this[eventHandlerName].bind(this));
       }
     }.bind(this));
-  }.observes('_options'),
+
+    this.set('_chosenInitialized', true);
+  },
 
   /**
    * _selectionChanged is triggered when selection on chosen components is 
