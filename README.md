@@ -11,7 +11,7 @@ Always [view the latest readme](https://github.com/green-arrow/ember-cli-chosen)
 ## Installation
 
 ```bash
-ember install:addon ember-cli-chosen
+ember install git://github.com/kklisura/ember-cli-chosen.git
 ```
 
 ## Build Options
@@ -81,8 +81,6 @@ Selecting multiple of elements with grouped content:
 ### Options
 
 `ember-cli-chosen` allows you to specify values for all of the available options that Chosen exposes.
-
-All of the options below are watched for changes. If a change occurs, Chosen is re-initialized with the updated options.
 
     allowSingleDeselect
     disableSearch

@@ -200,22 +200,12 @@ export default Ember.Component.extend({
   }.observes('_options'),
 
   /**
-   * afterRenderEvent is called after all child views are rendered
+   * _subscribeToChosenEvents subscribes to chosen events.
    * 
+   * @param  {Element} chosenElement
    */
-  afterRenderEvent: function () {
-    if (this.get('_chosenInitialized')) {
-      this.$().trigger('chosen:updated');
-      console.log('chosen updated');
-      return;
-    }
-    var options = this.get('_options');
-
-    this._setInitialSelectionValue();
-
-    // Initialize chosen 
-    var chosenElement = this.$().chosen(options)
-      .change(this._selectionChanged.bind(this));
+  _subscribeToChosenEvents: function (chosenElement) {
+    chosenElement.on('change', this._selectionChanged.bind(this));
 
     // Subscribe to chosen events
     CHOSEN_EVENTS.forEach(function (eventName) {
@@ -224,6 +214,47 @@ export default Ember.Component.extend({
         chosenElement.on('chosen:' + eventName, this[eventHandlerName].bind(this));
       }
     }.bind(this));
+  },
+
+  /**
+   * _unsubscribeFromChosenEvents unsubscribes from chosen events.
+   * 
+   * @param  {Element} chosenElement
+   */
+  _unsubscribeFromChosenEvents: function (chosenElement) {
+    chosenElement.off('change');
+
+    // Subscribe to chosen events
+    CHOSEN_EVENTS.forEach(function (eventName) {
+      var eventHandlerName = '_' + CHOSEN_EVENT_MAPING[eventName] || eventName.decamelize();
+      if (this[eventHandlerName]) {
+        chosenElement.off('chosen:' + eventName);
+      }
+    }.bind(this));
+  },
+
+
+  /**
+   * afterRenderEvent is called after all child views are rendered
+   * 
+   */
+  afterRenderEvent: function () {
+    var options = this.get('_options'),
+      alreadyInitialized = this.get('_chosenInitialized');
+
+    if (alreadyInitialized) {
+      this._unsubscribeFromChosenEvents(this.$());
+    }
+
+    this._setInitialSelectionValue();
+
+    // Initialize chosen 
+    var chosenElement = this.$().chosen(options);
+    this._subscribeToChosenEvents(chosenElement);
+
+    if (alreadyInitialized) {
+      this.$().trigger('chosen:updated');
+    }
 
     this.set('_chosenInitialized', true);
   },
