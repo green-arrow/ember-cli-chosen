@@ -1,8 +1,5 @@
-export default "{{#ember-chosen selectionDidChange=\"onSelectionChanged\"}}\n" +
-              "    <option></option>\n" +
-              "  {{#each countries as |country|}}\n" +
-              "    <option {{bind-attr value=country.code}}>{{country.name}}</option>\n" +
-              "  {{/each}}\n" +
-              "{{/ember-chosen}}\n" +
-              "\n" +
-              "<p>Message: {{actionMessage}}</p>";
+export default "{{chosen-select prompt=\"Select some country\"\n" +
+"                content=countries\n" +
+"                optionValuePath=\"content.code\"\n" +
+"                optionLabelPath=\"content.name\"\n" +
+"                selectionDidChange=\"onSelectionChanged\"}}";

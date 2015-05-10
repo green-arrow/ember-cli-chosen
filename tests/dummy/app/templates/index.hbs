@@ -14,12 +14,10 @@
 
 <h4>Standard Select</h4>
 {{chosen-select value=singleSelectValue
-                prompt="Select something"
+                prompt="Select some country"
                 content=countries
                 optionValuePath="content.code"
-                optionLabelPath="content.name"
-                optionGroupPath="group"
-                includeGroupLabelInSelected=true}}
+                optionLabelPath="content.name"}}
 
 <p>Selected value: {{singleSelectValue}}</p>
 
@@ -36,12 +34,9 @@
 
 {{chosen-select selection=multipleSelectValue
                 multiple=true
-                prompt=""
                 content=countries
                 optionValuePath="content.code"
-                optionLabelPath="content.name"
-                optionGroupPath="group"
-                includeGroupLabelInSelected=true}}
+                optionLabelPath="content.name"}}
 
 <p>
     Selected values:
@@ -62,56 +57,12 @@
 </div>
 
 <h4>Grouping</h4>
-
-    <option value=""></option>
-    <optgroup label="NFC EAST">
-        <option>Dallas Cowboys</option>
-        <option>New York Giants</option>
-        <option>Philadelphia Eagles</option>
-        <option>Washington Redskins</option>
-    </optgroup>
-    <optgroup label="NFC NORTH">
-        <option>Chicago Bears</option>
-        <option>Detroit Lions</option>
-        <option>Green Bay Packers</option>
-        <option>Minnesota Vikings</option>
-    </optgroup>
-    <optgroup label="NFC SOUTH">
-        <option>Atlanta Falcons</option>
-        <option>Carolina Panthers</option>
-        <option>New Orleans Saints</option>
-        <option>Tampa Bay Buccaneers</option>
-    </optgroup>
-    <optgroup label="NFC WEST">
-        <option>Arizona Cardinals</option>
-        <option>St. Louis Rams</option>
-        <option>San Francisco 49ers</option>
-        <option>Seattle Seahawks</option>
-    </optgroup>
-    <optgroup label="AFC EAST">
-        <option>Buffalo Bills</option>
-        <option>Miami Dolphins</option>
-        <option>New England Patriots</option>
-        <option>New York Jets</option>
-    </optgroup>
-    <optgroup label="AFC NORTH">
-        <option>Baltimore Ravens</option>
-        <option>Cincinnati Bengals</option>
-        <option>Cleveland Browns</option>
-        <option>Pittsburgh Steelers</option>
-    </optgroup>
-    <optgroup label="AFC SOUTH">
-        <option>Houston Texans</option>
-        <option>Indianapolis Colts</option>
-        <option>Jacksonville Jaguars</option>
-        <option>Tennessee Titans</option>
-    </optgroup>
-    <optgroup label="AFC WEST">
-        <option>Denver Broncos</option>
-        <option>Kansas City Chiefs</option>
-        <option>Oakland Raiders</option>
-        <option>San Diego Chargers</option>
-    </optgroup>
+{{chosen-select value=optgroupSelectValue
+                prompt="Select some country"
+                content=countries
+                optionValuePath="content.code"
+                optionLabelPath="content.name"
+                optionGroupPath="group"}}
 
 <p>Selected value: {{optgroupSelectValue}}</p>
 
@@ -128,11 +79,11 @@
 
 <h4>Using selectionDidChange</h4>
 
-#ember-chosen selectionDidChange="onSelectionChanged"}}
-    <option></option>
-    {{#each countries as |country|}}
-        <option {{bind-attr value=country.code}}>{{country.name}}</option>
-    {{/each}}
+{{chosen-select prompt="Select some country"
+                content=countries
+                optionValuePath="content.code"
+                optionLabelPath="content.name"
+                selectionDidChange="onSelectionChanged"}}
 
 <p>Message: {{actionMessage}}</p>
 
