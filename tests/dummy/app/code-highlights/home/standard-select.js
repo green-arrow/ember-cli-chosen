@@ -1,8 +1,5 @@
-export default "{{#ember-chosen value=singleSelectValue}}\n" +
-              "    <option></option>\n" +
-              "  {{#each countries as |country|}}\n" +
-              "    <option {{bind-attr value=country.code}}>{{country.name}}</option>\n" +
-              "  {{/each}}\n" +
-              "{{/ember-chosen}}\n" +
-              "\n" +
-              "<p>Selected value: {{singleSelectValue}}</p>";
+export default "{{chosen-select value=singleSelectValue\n" +
+"                prompt=\"Select some country\"\n" +
+"                content=countries\n" +
+"                optionValuePath=\"content.code\"\n" +
+"                optionLabelPath=\"content.name\"}}";

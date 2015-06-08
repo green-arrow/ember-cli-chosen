@@ -19,8 +19,6 @@
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.0.0",
-    "broccoli-sass": "aexmachina/broccoli-sass#v0.4.0",
-    "broccoli-static-compiler": "^0.2.1",
     "ember-cli": "git://github.com/ember-cli/ember-cli",
     "ember-cli-app-version": "0.3.1",
     "ember-cli-autoprefixer": "0.3.0",

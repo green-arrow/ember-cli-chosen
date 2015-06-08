@@ -1,0 +1,26 @@
+{{#if prompt}}
+  <option></option>
+{{/if}}
+
+{{#if optionGroupPath}}
+  {{#each groupedContent as |group|}}
+    {{view groupView
+      content=group.content
+      label=group.label
+      selection=selection
+      multiple=multiple
+      optionLabelPath=optionLabelPath
+      optionValuePath=optionValuePath
+      optionView=optionView}}
+  {{/each}}
+{{else}}
+  {{#each content as |item|}}
+    {{view optionView
+      content=item
+      selection=selection
+      parentValue=value
+      multiple=multiple
+      optionLabelPath=optionLabelPath
+      optionValuePath=optionValuePath}}
+    {{/each}}
+{{/if}}
