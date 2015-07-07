@@ -44,6 +44,7 @@ export default Ember.Component.extend({
       }
     }
 
+    _this.$().val(currentValue).trigger("chosen:updated");
     _this.$().chosen(options)
       .on('change', function (e, params) {
       var index;
