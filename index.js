@@ -15,7 +15,7 @@ module.exports = {
       'importChosenCSS': true
     }, app.options['ember-cli-chosen'] || {});
 
-    options.chosenJSType = options.jQuery ? 'jquery' : 'proto';
+    options.chosenJSType = options.jQuery ? 'jquery.min' : 'proto';
 
     // Update `ember-cli-chosen` options on our `app` with updated hash
     app.options['ember-cli-chosen'] = options;
@@ -24,7 +24,7 @@ module.exports = {
     app.import(app.bowerDirectory + '/chosen/chosen.' + options.chosenJSType + '.js');
 
     // Import Chosen CSS (done by default)
-    if(options.importChosenCSS) { app.import(app.bowerDirectory + '/chosen/chosen.css'); }
+    if(options.importChosenCSS) { app.import(app.bowerDirectory + '/chosen/chosen.min.css'); }
   },
   treeForPublic: function(treeName) {
     var tree;
